@@ -4,7 +4,7 @@
 
 If you find a security vulnerability, **do not open a public issue** and do not describe it in a pull request.
 
-Report it privately through GitHub: **[Report a vulnerability](https://github.com/shipibo-studio/georg-native/security/advisories/new)**.
+Report it privately through GitHub: **[Report a vulnerability](https://github.com/shipibo-studio/georg-native/security/advisories/new)**. If you cannot use GitHub, email **security@dasgeorg.cc**.
 
 Please include:
 

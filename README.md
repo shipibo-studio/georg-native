@@ -75,6 +75,17 @@ This project is open to contributions from the start, and the design stage is wh
 
 Read [`CONTRIBUTING.md`](CONTRIBUTING.md) before opening a pull request, and follow the [Code of Conduct](CODE_OF_CONDUCT.md).
 
+## Contact
+
+| For | Where |
+| --- | --- |
+| Questions, ideas, how you would use it | [Discussions](https://github.com/shipibo-studio/georg-native/discussions) |
+| Bugs and feature proposals | [Issues](https://github.com/shipibo-studio/georg-native/issues/new/choose) |
+| Security vulnerabilities (never in public) | [Private advisory](https://github.com/shipibo-studio/georg-native/security/advisories/new) or **security@dasgeorg.cc** |
+| Privacy | **privacy@dasgeorg.cc** (the library collects no data; ask anything about how it handles yours) |
+| Code of conduct reports | **oi@dasgeorg.cc** |
+| Anything else | **support@dasgeorg.cc** |
+
 ## Related projects
 
 - [tinyjs](https://tinyjs.app): desktop apps in about 6 MB with a JavaScript backend and the system WebView.
