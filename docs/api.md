@@ -108,8 +108,8 @@ No tool calling: the model cannot trigger actions. Output is untrusted data for 
 
 ## Open questions
 
-1. **Result delivery.** Polling with `gn_poll` works with every FFI, but the host needs to know when to poll. Options: (a) a file descriptor the host watches (a pipe written once per new message), (b) an optional C callback for runtimes that support them safely, (c) both. Which FFIs (txiki.js, Bun, Deno, koffi) handle each option well?
-2. **Schema subset for guided generation.** FoundationModels generates into Swift types; mapping a JSON Schema at runtime needs a defined subset (objects, strings, numbers, enums, arrays). Which subset is enough?
-3. **Helper process.** XPC service inside the host bundle, or a plain child process? XPC is the macOS way but ties the helper to the bundle layout.
-4. **Paths or bytes.** Accept only file paths (simple, no copies) or also base64 data for content the host already has in memory?
-5. **Model availability events.** Should capability changes (Apple Intelligence turned on, model downloaded) be pushed as progress messages instead of being polled?
+1. **Result delivery.** Polling with `gn_poll` works with every FFI, but the host needs to know when to poll. Options: (a) a file descriptor the host watches (a pipe written once per new message), (b) an optional C callback for runtimes that support them safely, (c) both. Which FFIs (txiki.js, Bun, Deno, koffi) handle each option well? Discuss in [#1](https://github.com/shipibo-studio/georg-native/issues/1).
+2. **Schema subset for guided generation.** FoundationModels generates into Swift types; mapping a JSON Schema at runtime needs a defined subset (objects, strings, numbers, enums, arrays). Which subset is enough? Discuss in [#2](https://github.com/shipibo-studio/georg-native/issues/2).
+3. **Helper process.** XPC service inside the host bundle, or a plain child process? XPC is the macOS way but ties the helper to the bundle layout. Discuss in [#3](https://github.com/shipibo-studio/georg-native/issues/3).
+4. **Paths or bytes.** Accept only file paths (simple, no copies) or also base64 data for content the host already has in memory? Discuss in [#4](https://github.com/shipibo-studio/georg-native/issues/4).
+5. **Model availability events.** Should capability changes (Apple Intelligence turned on, model downloaded) be pushed as progress messages instead of being polled? Discuss in [#5](https://github.com/shipibo-studio/georg-native/issues/5).
