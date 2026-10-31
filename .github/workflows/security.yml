@@ -1,0 +1,72 @@
+# Security baseline: secret scanning (gitleaks) and static analysis (semgrep).
+#
+# Both tools run from their official container images instead of the packaged
+# Actions, the same setup as the rest of the georg family.
+# Images are pinned by digest, not by tag: a tag can be re-pointed, a digest cannot.
+#
+# GitHub secret scanning with push protection is enabled on this repository.
+#
+# False positives:
+#   - gitleaks: add an allowlist rule in .gitleaks.toml
+#   - semgrep:  add a `// nosemgrep` comment on the line, or a .semgrepignore entry
+
+name: Security
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  schedule:
+    # Weekly, so repositories without activity are still scanned.
+    - cron: "17 6 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: security-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  gitleaks:
+    name: Secrets
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          # Full history, so every commit can be scanned.
+          fetch-depth: 0
+
+      - name: Scan with gitleaks
+        env:
+          # Empty outside of pull requests.
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+        run: |
+          # Pull requests scan only their own commits; push, schedule and manual
+          # runs scan the full history.
+          if [ -n "${BASE_SHA:-}" ]; then
+            RANGE="--log-opts=$BASE_SHA..HEAD"
+            echo "Pull request mode: scanning $BASE_SHA..HEAD"
+          else
+            RANGE=""
+            echo "Full mode: scanning the entire history"
+          fi
+          docker run --rm -v "$PWD:/repo:ro" \
+            ghcr.io/gitleaks/gitleaks:v8.30.1@sha256:c00b6bd0aeb3071cbcb79009cb16a60dd9e0a7c60e2be9ab65d25e6bc8abbb7f \
+            detect --source=/repo --verbose --redact --exit-code=1 $RANGE
+
+  semgrep:
+    name: Static analysis
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      # --metrics off: by default semgrep sends repository metadata to semgrep.dev on every run.
+      - name: Scan with semgrep
+        run: |
+          docker run --rm -v "$PWD:/src:ro" -w /src \
+            semgrep/semgrep:1.175.0@sha256:b94b53d02fd4a022f9eac4e2af1380f5c3c4c21400e79d3336bdff1d1db5e796 \
+            semgrep scan --config p/security-audit --config p/secrets --metrics off --error

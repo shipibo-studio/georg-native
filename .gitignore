@@ -1,0 +1,26 @@
+# Swift Package Manager and Xcode
+.build/
+.swiftpm/
+*.xcodeproj/
+*.xcworkspace/
+xcuserdata/
+DerivedData/
+Package.resolved.orig
+
+# Build artifacts
+*.dylib
+*.o
+*.dSYM/
+dist/
+
+# macOS
+.DS_Store
+
+# Secrets and signing material never belong in this public repository
+.env*
+*.p12
+*.cer
+*.mobileprovision
+
+# Local agent settings (machine-specific paths)
+.claude/settings.local.json

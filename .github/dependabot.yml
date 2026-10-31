@@ -1,0 +1,22 @@
+# Dependency updates. Without this file, Dependabot only opens security updates:
+# it would not bump the SHA-pinned GitHub Actions.
+#
+# The swift ecosystem is added once the repository has a Package.swift.
+
+version: 2
+updates:
+  # Keep the SHA-pinned actions current. Monthly and grouped into a single pull
+  # request, so update noise does not bury security updates.
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: monthly
+      day: monday
+    groups:
+      github-actions:
+        patterns:
+          - "*"
+    open-pull-requests-limit: 3
+    commit-message:
+      prefix: chore
+      include: scope
